@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>🎮 Literasi Cyber Game | Belajar Bahasa Indonesia SD</title>
+    <!-- Font & Ikon -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #1d2b64, #2b3b6e);
+            min-height: 100vh;
+            padding: 20px;
+            color: #1f2a44;
+        }
+
+        /* Container game */
+        .game-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: rgba(255, 248, 225, 0.95);
+            border-radius: 60px 60px 40px 40px;
+            overflow: hidden;
+            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(2px);
+        }
+
+        /* Header dengan maskot */
+        .game-header {
+            background: #ffb347;
+            background: linear-gradient(135deg, #ffaa33, #ff8c1a);
+            padding: 20px 30px;
+            text-align: center;
+            border-bottom: 5px solid #d45d00;
+        }
+
+        .mascot {
+            font-size: 3.5rem;
+            filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.2));
+        }
+
+        .game-header h1 {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #2d1f00;
+            background: #ffeecc;
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 50px;
+            margin-top: 8px;
+        }
+
+        .score-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #2e3b4e;
+            padding: 8px 25px;
+            color: #ffd966;
+            font-weight: bold;
+            border-radius: 0 0 30px 30px;
+        }
+
+        .xp-points {
+            background: #f9c74f;
+            color: #2b2b2b;
+            padding: 5px 15px;
+            border-radius: 40px;
+            font-size: 1.2rem;
+        }
+
+        /* Menu navigasi game */
+        .game-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+            background: #fff2df;
+        }
+
+        .game-btn {
+            background: #6c5ce7;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 5px 0 #3b2c8a;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .game-btn i {
+            margin-right: 8px;
+        }
+
+        .game-btn.active {
+            background: #00b894;
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #006e54;
+        }
+
+        .game-btn:hover {
+            transform: translateY(-3px);
+            background: #8c7cf0;
+        }
+
+        /* Panel konten game */
+        .game-panel {
+            display: none;
+            padding: 30px;
+            background: #fef9ef;
+            animation: slideUp 0.4s ease;
+        }
+
+        .active-panel {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        /* Kartu cerita (gaya komik) */
+        .story-card {
+            background: #ffffffcc;
+            border-radius: 50px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 2px solid #ffb347;
+            box-shadow: 10px 10px 0 #f7b05e;
+        }
+
+        .comic-bubble {
+            background: #fff3c9;
+            border-radius: 40px;
+            padding: 15px;
+            font-size: 1.1rem;
+        }
+
+        /* Kuis game style */
+        .quiz-card {
+            background: white;
+            border-radius: 35px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .quiz-option {
+            background: #eef2ff;
+            margin: 12px 0;
+            padding: 14px 20px;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+            border: 2px solid transparent;
+        }
+
+        .quiz-option:hover {
+            background: #dfe8ff;
+            transform: scale(1.02);
+            border-color: #6c5ce7;
+        }
+
+        .feedback-correct {
+            background: #b9f6ca;
+            border-left: 10px solid #2e7d32;
+        }
+
+        .feedback-wrong {
+            background: #ffcdd2;
+            border-left: 10px solid #c62828;
+        }
+
+        /* Forum diskusi */
+        .forum-card {
+            background: #e6f2ff;
+            border-radius: 35px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .avatar {
+            font-size: 2rem;
+            vertical-align: middle;
+        }
+
+        /* Trophy */
+        .trophy-box {
+            background: linear-gradient(145deg, #f9d56e, #f8c630);
+            padding: 25px;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #1f2a44;
+            color: #f5e2b6;
+        }
+
+        @media (max-width: 700px) {
+            .game-panel { padding: 18px; }
+            .game-btn { padding: 8px 16px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="game-container">
+    <div class="game-header">
+        <div class="mascot">
+            🦊📖💻
+        </div>
+        <h1>📚 LITERASI CYBER ADVENTURE 🎮</h1>
+        <p style="color:#2c1a00; font-weight:bold;">Belajar Bahasa Indonesia jadi Game Seru!</p>
+    </div>
+    <div class="score-bar">
+        <span><i class="fas fa-star"></i> Poin Literasi</span>
+        <span id="totalScoreDisplay" class="xp-points">0 XP</span>
+    </div>
+
+    <div class="game-nav">
+        <button class="game-btn" data-panel="materi"><i class="fas fa-book-open"></i> Cerita Petualangan</button>
+        <button class="game-btn" data-panel="video"><i class="fas fa-video"></i> Video Aksi</button>
+        <button class="game-btn" data-panel="kuis"><i class="fas fa-gamepad"></i> Tantangan Kuis</button>
+        <button class="game-btn" data-panel="forum"><i class="fas fa-comments"></i> Ruang Pahlawan</button>
+        <button class="game-btn" data-panel="nilai"><i class="fas fa-trophy"></i> Hall of Fame</button>
+    </div>
+
+    <!-- PANEL CERITA INTERAKTIF (gaya komik) -->
+    <div id="panel-materi" class="game-panel active-panel">
+        <div class="story-card">
+            <div style="font-size:3rem;">📖✨</div>
+            <h2><i class="fas fa-dragon"></i> "Petualangan Literasi Cyber"</h2>
+            <div class="comic-bubble">
+                <p><strong>🌍 Di Desa Digital...</strong> hiduplah seorang pahlawan cilik bernama <strong>Lita</strong> dan temannya <strong>Cybro</strong> (robot pintar). Mereka bertugas menyelamatkan kata-kata yang hilang di dunia maya. Setiap hari mereka membaca cerita rakyat digital, membuat poster ajakan membaca, dan berdiskusi di ruang siber.</p>
+                <p>🎮 <strong>Misi Multiliterasi:</strong> Lita belajar memahami <strong>teks cerita, poster digital, video edukasi, dan komentar teman</strong>. Dengan teknologi, mereka bisa belajar kapan saja!</p>
+                <p>💡 <strong>Pesan Moral:</strong> Jadilah pahlawan literasi: gunakan gadget untuk belajar, berbagi ide, dan berkarya.</p>
+            </div>
+            <button id="startQuizFromStory" style="margin-top:15px; background:#ff914d;"><i class="fas fa-bolt"></i> Ambil Tantangan Kuis Sekarang!</button>
+        </div>
+    </div>
+
+    <!-- PANEL VIDEO -->
+    <div id="panel-video" class="game-panel">
+        <h2><i class="fas fa-film"></i> Video Misi Literasi</h2>
+        <div style="position:relative; padding-bottom: 56.25%; margin: 20px 0;">
+            <iframe style="position:absolute; width:100%; height:100%; border-radius: 30px;" src="https://www.youtube.com/embed/2o2kYj9n2xg?si=game" title="Video Literasi" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <p><i class="fas fa-lightbulb"></i> <strong>Misi setelah nonton:</strong> Tulis di forum bagaimana teknologi membantu kamu belajar Bahasa Indonesia!</p>
+        <button class="game-btn" data-panel="forum" style="background:#00b894;"><i class="fas fa-pen-fancy"></i> Buka Ruang Pahlawan</button>
+        <p style="font-size:12px;">*Guru bisa ganti link video dengan cerita fabel (Kancil & Buaya) atau video edukasi SD.</p>
+    </div>
+
+    <!-- PANEL KUIS GAME (5 soal, skor XP) -->
+    <div id="panel-kuis" class="game-panel">
+        <h2><i class="fas fa-gamepad"></i> Tantangan Kuis: Lawan Monster Kebodohan!</h2>
+        <p>Jawab dengan benar, kumpulkan XP, dan dapatkan lencana!</p>
+        <div id="quizGameArea"></div>
+        <div id="quizFeedback" style="margin: 15px 0;"></div>
+        <button id="resetQuizGameBtn" class="game-btn" style="background:#6c5ce7;"><i class="fas fa-redo-alt"></i> Main Lagi</button>
+    </div>
+
+    <!-- PANEL FORUM (diskusi hero) -->
+    <div id="panel-forum" class="game-panel">
+        <h2><i class="fas fa-comments"></i> Ruang Pahlawan Literasi</h2>
+        <textarea id="heroComment" rows="3" style="width:100%; border-radius: 30px; padding: 15px; border:2px solid #ffb347;" placeholder="Tulis komentarmu tentang cerita, video, atau pengalaman belajarmu..."></textarea>
+        <button id="postHeroComment" style="margin:10px 0; background:#20b2aa;"><i class="fas fa-paper-plane"></i> Kirim Pesan Pahlawan</button>
+        <div id="forumHeroList" style="max-height: 400px; overflow-y: auto;"></div>
+    </div>
+
+    <!-- PANEL NILAI / TROPHY -->
+    <div id="panel-nilai" class="game-panel">
+        <h2><i class="fas fa-crown"></i> Hall of Fame Literasi</h2>
+        <div id="nilaiGameBox" class="trophy-box">
+            🏆 Skor terbaikmu akan muncul di sini!
+        </div>
+        <p style="margin-top:15px;">Kerjakan kuis untuk mendapatkan XP dan mengisi trofi.</p>
+    </div>
+    <footer>
+        ⚡ Cybergogy Adventure | SD Kelas 4-5 | Era Society 5.0
+    </footer>
+</div>
+
+<script>
+    // ======================= KUIS GAME (5 Soal, setiap benar +20 XP) =======================
+    const quizGameData = [
+        { text: "Apa kepanjangan dari 'multiliterasi' dalam cerita Lita?", options: ["Membaca satu buku", "Memahami teks, digital, visual, dan sosial", "Hanya menulis cerita", "Belajar tanpa gadget"], correct: 1 },
+        { text: "Contoh literasi digital yang aman untuk siswa SD adalah...", options: ["Membagikan password", "Mengirim komentar positif di forum belajar", "Menerima teman asing", "Download aplikasi tanpa izin"], correct: 1 },
+        { text: "Dalam petualangan Literasi Cyber, siapa teman robot Lita?", options: ["Cybro", "Robo", "Siri", "Chip"], correct: 0 },
+        { text: "Poster ajakan membaca termasuk jenis teks...", options: ["Visual", "Audio", "Teks panjang", "Puitis"], correct: 0 },
+        { text: "Era Society 5.0 menggabungkan dunia nyata dan dunia...", options: ["Mimpi", "Digital (siber)", "Imajinasi", "Luar angkasa"], correct: 1 }
+    ];
+
+    let currentUserAnswers = new Array(quizGameData.length).fill(null);
+    let totalXP = 0;
+    let quizSubmittedFlag = false;
+    let gameScoreSaved = false;
+
+    // Load XP dari localStorage
+    function loadXP() {
+        let savedXP = localStorage.getItem('literasiCyberXP');
+        if (savedXP !== null && !isNaN(parseInt(savedXP))) {
+            totalXP = parseInt(savedXP);
+        } else {
+            totalXP = 0;
+        }
+        updateScoreUI();
+        updateNilaiPanelGame();
+    }
+
+    function updateScoreUI() {
+        document.getElementById('totalScoreDisplay').innerHTML = totalXP + " XP";
+    }
+
+    function saveXP() {
+        localStorage.setItem('literasiCyberXP', totalXP);
+        updateScoreUI();
+        updateNilaiPanelGame();
+    }
+
+    // Render soal kuis game
+    function renderQuizGame() {
+        const area = document.getElementById('quizGameArea');
+        if (!area) return;
+        let html = '';
+        quizGameData.forEach((q, idx) => {
+            const selectedVal = currentUserAnswers[idx] !== null ? currentUserAnswers[idx] : '';
+            html += `
+                <div class="quiz-card">
+                    <p><strong>📌 Soal ${idx+1}. ${q.text}</strong></p>
+                    ${q.options.map((opt, optIdx) => {
+                        const letter = String.fromCharCode(65+optIdx);
+                        const isChecked = (selectedVal === optIdx);
+                        return `
+                            <div class="quiz-option" data-qidx="${idx}" data-oidx="${optIdx}" style="display:flex; align-items:center;">
+                                <input type="radio" name="q${idx}" value="${optIdx}" id="q${idx}_${optIdx}" ${isChecked ? 'checked' : ''} style="margin-right:12px;">
+                                <label for="q${idx}_${optIdx}" style="flex:1; cursor:pointer;">${letter}. ${opt}</label>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        });
+        html += `<button id="submitGameQuizBtn" class="game-btn" style="background:#27ae60;"><i class="fas fa-check-circle"></i> Kumpulkan & Dapatkan XP</button>`;
+        area.innerHTML = html;
+
+        // Tambahkan event listener untuk radio button secara manual
+        document.querySelectorAll('.quiz-option').forEach(optDiv => {
+            const radio = optDiv.querySelector('input[type="radio"]');
+            if (radio) {
+                radio.addEventListener('change', (e) => {
+                    const qIdx = parseInt(optDiv.getAttribute('data-qidx'));
+                    const oIdx = parseInt(optDiv.getAttribute('data-oidx'));
+                    if (e.target.checked) {
+                        currentUserAnswers[qIdx] = oIdx;
+                        quizSubmittedFlag = false;
+                        document.getElementById('quizFeedback').innerHTML = '';
+                    }
+                });
+            }
+        });
+
+        const submitBtn = document.getElementById('submitGameQuizBtn');
+        if (submitBtn) submitBtn.onclick = submitQuizGame;
+    }
+
+    function submitQuizGame() {
+        let correctCount = 0;
+        for (let i = 0; i < quizGameData.length; i++) {
+            if (currentUserAnswers[i] !== null && currentUserAnswers[i] === quizGameData[i].correct) {
+                correctCount++;
+            }
+        }
+        const earnedXP = correctCount * 20; // max 100 XP
+        // Update totalXP (tidak menimpa, tapi menambah? Aturan game: setiap submit akan menambah XP, tapi supaya tidak curang: kita cek jika sudah pernah submit sebelumnya? Biar adil: hanya tambah jika skor lebih besar dari sebelumnya? Sederhananya: simpan skor tertinggi.
+        let previousScore = localStorage.getItem('bestQuizScore') ? parseInt(localStorage.getItem('bestQuizScore')) : 0;
+        if (earnedXP > previousScore) {
+            let bonusXP = earnedXP - previousScore;
+            totalXP += bonusXP;
+            localStorage.setItem('bestQuizScore', earnedXP);
+            saveXP();
+            document.getElementById('quizFeedback').innerHTML = `<div style="background:#b9f6ca; border-radius:30px; padding:15px;"><i class="fas fa-trophy"></i> Hebat! Kamu mendapat ${bonusXP} XP (Total XP: ${totalXP}). Skor tertinggimu: ${earnedXP}/100</div>`;
+        } else {
+            document.getElementById('quizFeedback').innerHTML = `<div style="background:#ffe0b5; border-radius:30px; padding:15px;"><i class="fas fa-chart-line"></i> Skor kuis: ${earnedXP}/100. Tidak mengubah XP karena skor sebelumnya lebih tinggi/ sama. Ayo coba lagi!</div>`;
+        }
+        quizSubmittedFlag = true;
+        updateNilaiPanelGame();
+    }
+
+    function resetQuizGame() {
+        currentUserAnswers = new Array(quizGameData.length).fill(null);
+        quizSubmittedFlag = false;
+        renderQuizGame();
+        document.getElementById('quizFeedback').innerHTML = '';
+    }
+
+    // Forum dengan localStorage
+    function loadForumHero() {
+        const container = document.getElementById('forumHeroList');
+        let comments = JSON.parse(localStorage.getItem('literasiCyberForum')) || [];
+        if (comments.length === 0) {
+            comments = [
+                { name: "Lita (Pahlawan)", text: "Aku suka sekali cerita petualangan digital! Aku jadi rajin membaca.", date: new Date().toLocaleString() },
+                { name: "Cybro", text: "Wah hebat! Literasi cyber membuat kita pintar dan aman.", date: new Date().toLocaleString() }
+            ];
+            localStorage.setItem('literasiCyberForum', JSON.stringify(comments));
+        }
+        let html = '';
+        comments.forEach(c => {
+            html += `<div class="forum-card"><span class="avatar">🧑‍🎓</span> <strong>${c.name}</strong> <small>${c.date}</small><br>${c.text}</div>`;
+        });
+        container.innerHTML = html;
+    }
+
+    function addHeroComment() {
+        const input = document.getElementById('heroComment');
+        const text = input.value.trim();
+        if (text === "") { alert("Tulis pesan pahlawan dulu!"); return; }
+        let comments = JSON.parse(localStorage.getItem('literasiCyberForum')) || [];
+        comments.unshift({ name: "Pahlawan Muda", text: text, date: new Date().toLocaleString() });
+        localStorage.setItem('literasiCyberForum', JSON.stringify(comments));
+        input.value = '';
+        loadForumHero();
+        alert("Komentar terkirim +5 XP semangat!");
+        // Bonus XP kecil untuk memotivasi diskusi
+        totalXP += 5;
+        saveXP();
+    }
+
+    // Update panel nilai (trophy)
+    function updateNilaiPanelGame() {
+        const nilaiBox = document.getElementById('nilaiGameBox');
+        if (nilaiBox) {
+            const best = localStorage.getItem('bestQuizScore') ? parseInt(localStorage.getItem('bestQuizScore')) : 0;
+            nilaiBox.innerHTML = `<i class="fas fa-medal"></i> Skor Kuis Terbaik: ${best} / 100 XP <br> Total XP Pahlawan: ${totalXP} <br> 🌟 Teruslah belajar! 🌟`;
+        }
+    }
+
+    // Navigasi antar panel
+    function switchGamePanel(panelId) {
+        const panels = document.querySelectorAll('.game-panel');
+        panels.forEach(p => p.classList.remove('active-panel'));
+        const target = document.getElementById(`panel-${panelId}`);
+        if (target) target.classList.add('active-panel');
+
+        const btns = document.querySelectorAll('.game-btn');
+        btns.forEach(btn => {
+            const pnl = btn.getAttribute('data-panel');
+            if (pnl === panelId) btn.classList.add('active');
+            else btn.classList.remove('active');
+        });
+
+        if (panelId === 'kuis') renderQuizGame();
+        if (panelId === 'forum') loadForumHero();
+        if (panelId === 'nilai') updateNilaiPanelGame();
+    }
+
+    // Event listener
+    document.addEventListener('DOMContentLoaded', () => {
+        loadXP();
+        renderQuizGame();
+        loadForumHero();
+        updateNilaiPanelGame();
+
+        document.querySelectorAll('.game-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const panel = btn.getAttribute('data-panel');
+                if (panel) switchGamePanel(panel);
+            });
+        });
+
+        const resetBtn = document.getElementById('resetQuizGameBtn');
+        if (resetBtn) resetBtn.onclick = resetQuizGame;
+
+        const postBtn = document.getElementById('postHeroComment');
+        if (postBtn) postBtn.onclick = addHeroComment;
+
+        const storyQuizBtn = document.getElementById('startQuizFromStory');
+        if (storyQuizBtn) storyQuizBtn.onclick = () => switchGamePanel('kuis');
+    });
+</script>
+</body>
+</html>

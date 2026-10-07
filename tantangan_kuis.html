@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>🎮 Tantangan Kuis | Literasi Cyber Adventure</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #1d2b64, #2b3b6e);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            max-width: 900px;
+            width: 100%;
+            background: #fffef7;
+            border-radius: 60px;
+            box-shadow: 0 25px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .quiz-header {
+            background: linear-gradient(135deg, #ffaa33, #ff8c1a);
+            padding: 25px 30px;
+            text-align: center;
+            border-bottom: 5px solid #d45d00;
+        }
+
+        .quiz-header h1 {
+            font-size: 1.8rem;
+            color: #2d1f00;
+            background: #ffeecc;
+            display: inline-block;
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-weight: 800;
+        }
+
+        .quiz-header p {
+            color: #2c1a00;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .score-area {
+            background: #2e3b4e;
+            color: #ffd966;
+            padding: 12px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .xp-badge {
+            background: #f9c74f;
+            color: #2b2b2b;
+            padding: 5px 18px;
+            border-radius: 40px;
+        }
+
+        .quiz-body {
+            padding: 30px;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 40px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid #ffe0a3;
+            transition: 0.2s;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+            background: #fef5e7;
+            padding: 12px 18px;
+            border-radius: 30px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            background: #f0f4fa;
+            border-radius: 100px;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option:hover {
+            background: #e2eaff;
+            transform: scale(1.01);
+            border-color: #6c5ce7;
+        }
+
+        .option input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #6c5ce7;
+        }
+
+        .option label {
+            flex: 1;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .quiz-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: #6c5ce7;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: 'Quicksand', sans-serif;
+            box-shadow: 0 4px 0 #3b2c8a;
+        }
+
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #3b2c8a;
+        }
+
+        button.reset-btn {
+            background: #ff914d;
+            box-shadow: 0 4px 0 #b45a2e;
+        }
+
+        .result-box {
+            background: #d4f1f9;
+            border-radius: 50px;
+            padding: 20px;
+            margin-top: 25px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-left: 12px solid #00b894;
+        }
+
+        .feedback-correct {
+            background: #b9f6ca;
+            border-left: 8px solid #2e7d32;
+        }
+
+        .feedback-wrong {
+            background: #ffcdd2;
+            border-left: 8px solid #c62828;
+        }
+
+        footer {
+            text-align: center;
+            padding: 18px;
+            background: #1f2a44;
+            color: #f5e2b6;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 600px) {
+            .quiz-header h1 { font-size: 1.3rem; }
+            .question-text { font-size: 1rem; }
+            .option { padding: 8px 15px; }
+            button { padding: 8px 18px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <div class="quiz-header">
+        <h1><i class="fas fa-gamepad"></i> Tantangan Kuis Literasi</h1>
+        <p>⚔️ Lawan Monster Malliterasi dengan menjawab soal-soal berikut! ⚔️</p>
+    </div>
+    <div class="score-area">
+        <span><i class="fas fa-star"></i> Total XP Pahlawan</span>
+        <span id="totalXpDisplay" class="xp-badge">0 XP</span>
+    </div>
+    <div class="quiz-body">
+        <div id="questionsContainer"></div>
+        <div class="quiz-actions">
+            <button id="submitQuizBtn"><i class="fas fa-check-circle"></i> Kumpulkan & Hitung Skor</button>
+            <button id="resetQuizBtn" class="reset-btn"><i class="fas fa-redo-alt"></i> Ulang Kuis</button>
+        </div>
+        <div id="resultArea" style="margin-top: 20px;"></div>
+    </div>
+    <footer>
+        <i class="fas fa-brain"></i> Setiap jawaban benar = 20 XP | Skor tertinggi tersimpan
+    </footer>
+</div>
+
+<script>
+    // ======================= DATA SOAL KUIS =======================
+    const questions = [
+        {
+            text: "Apa yang dimaksud dengan 'multiliterasi' dalam pembelajaran Bahasa Indonesia?",
+            options: ["Kemampuan membaca satu jenis teks", "Kemampuan memahami berbagai jenis teks (cetak, digital, visual, audio)", "Hanya menulis cerita panjang", "Menghafal kamus"],
+            correct: 1
+        },
+        {
+            text: "Siapa nama robot penjaga literasi dalam cerita petualangan Lita?",
+            options: ["Lita", "Cybro", "Malliterasi", "Robocop"],
+            correct: 1
+        },
+        {
+            text: "Berikut ini adalah contoh literasi digital yang aman untuk siswa SD, KECUALI...",
+            options: ["Membaca e-book cerita rakyat", "Mengirim komentar positif di forum belajar", "Mengakses video pembelajaran", "Membagikan data pribadi ke orang asing"],
+            correct: 3
+        },
+        {
+            text: "Poster ajakan membaca termasuk jenis teks...",
+            options: ["Visual", "Audio", "Teks panjang", "Puitis"],
+            correct: 0
+        },
+        {
+            text: "Era Society 5.0 menggabungkan dunia nyata dan dunia...",
+            options: ["Mimpi", "Digital (siber)", "Imajinasi", "Luar angkasa"],
+            correct: 1
+        }
+    ];
+
+    // State
+    let userAnswers = new Array(questions.length).fill(null);
+    let totalXP = 0;
+    let bestScore = 0;
+
+    // Load data dari localStorage
+    function loadData() {
+        const savedXP = localStorage.getItem('literasiCyberXP');
+        if (savedXP !== null && !isNaN(parseInt(savedXP))) totalXP = parseInt(savedXP);
+        else totalXP = 0;
+        const savedBest = localStorage.getItem('bestQuizScore');
+        if (savedBest !== null && !isNaN(parseInt(savedBest))) bestScore = parseInt(savedBest);
+        else bestScore = 0;
+        updateXPDisplay();
+    }
+
+    function updateXPDisplay() {
+        document.getElementById('totalXpDisplay').innerText = totalXP + " XP";
+    }
+
+    function saveXP() {
+        localStorage.setItem('literasiCyberXP', totalXP);
+        updateXPDisplay();
+    }
+
+    function saveBestScore(score) {
+        localStorage.setItem('bestQuizScore', score);
+        bestScore = score;
+    }
+
+    // Render semua soal ke dalam container
+    function renderQuestions() {
+        const container = document.getElementById('questionsContainer');
+        if (!container) return;
+        let html = '';
+        questions.forEach((q, idx) => {
+            const selectedVal = userAnswers[idx];
+            html += `
+                <div class="question-card" data-qidx="${idx}">
+                    <div class="question-text">
+                        <i class="fas fa-question-circle"></i> ${idx+1}. ${q.text}
+                    </div>
+                    <div class="options">
+                        ${q.options.map((opt, optIdx) => {
+                            const letter = String.fromCharCode(65 + optIdx);
+                            const isChecked = (selectedVal === optIdx);
+                            return `
+                                <div class="option" data-optidx="${optIdx}">
+                                    <input type="radio" name="q${idx}" id="q${idx}_${optIdx}" value="${optIdx}" ${isChecked ? 'checked' : ''}>
+                                    <label for="q${idx}_${optIdx}">${letter}. ${opt}</label>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+
+        // Pasang event listener untuk radio button
+        for (let i = 0; i < questions.length; i++) {
+            const radios = document.querySelectorAll(`input[name="q${i}"]`);
+            radios.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    const selected = parseInt(e.target.value);
+                    userAnswers[i] = selected;
+                    // Hapus feedback lama jika ada
+                    const resultDiv = document.getElementById('resultArea');
+                    if (resultDiv) resultDiv.innerHTML = '';
+                });
+            });
+        }
+    }
+
+    // Menghitung skor dan update XP
+    function submitQuiz() {
+        // Cek apakah semua soal sudah dijawab
+        let allAnswered = true;
+        for (let i = 0; i < questions.length; i++) {
+            if (userAnswers[i] === null) {
+                allAnswered = false;
+                break;
+            }
+        }
+        if (!allAnswered) {
+            document.getElementById('resultArea').innerHTML = `<div class="result-box" style="background:#ffe0b5;">⚠️ Ayo jawab semua soal dulu, Pahlawan! Klik jawaban yang belum dipilih.</div>`;
+            return;
+        }
+
+        let correctCount = 0;
+        for (let i = 0; i < questions.length; i++) {
+            if (userAnswers[i] === questions[i].correct) correctCount++;
+        }
+        const earnedXP = correctCount * 20; // maks 100 XP
+        let message = '';
+        let xpGained = 0;
+
+        if (earnedXP > bestScore) {
+            xpGained = earnedXP - bestScore;
+            totalXP += xpGained;
+            saveXP();
+            saveBestScore(earnedXP);
+            message = `<div class="result-box" style="background:#b9f6ca;"><i class="fas fa-trophy"></i> <strong>Hebat!</strong> Skor kuis: ${earnedXP}/100.<br>🎉 Rekor baru! Kamu mendapat tambahan ${xpGained} XP. Total XP sekarang: ${totalXP} XP.</div>`;
+        } else {
+            message = `<div class="result-box" style="background:#fff3c9;"><i class="fas fa-chart-line"></i> Skor kuis: ${earnedXP}/100.<br>Skor tertinggimu tetap ${bestScore} XP. Ayo coba lagi raih skor sempurna! (Setiap soal benar 20 XP)</div>`;
+        }
+
+        // Tampilkan detail jawaban benar/salah
+        let detailHtml = `<div style="margin-top: 20px;"><strong>📋 Rincian Jawaban:</strong><ul style="margin-top: 10px;">`;
+        for (let i = 0; i < questions.length; i++) {
+            const isCorrect = (userAnswers[i] === questions[i].correct);
+            const userLetter = userAnswers[i] !== null ? String.fromCharCode(65+userAnswers[i]) : '-';
+            const correctLetter = String.fromCharCode(65+questions[i].correct);
+            detailHtml += `<li style="margin-bottom: 8px;">Soal ${i+1}: ${isCorrect ? '✅ Benar' : '❌ Salah'} (Jawabanmu: ${userLetter}, Jawaban benar: ${correctLetter})</li>`;
+        }
+        detailHtml += `</ul></div>`;
+        document.getElementById('resultArea').innerHTML = message + detailHtml;
+    }
+
+    // Reset kuis (kosongkan semua jawaban, hapus hasil)
+    function resetQuiz() {
+        userAnswers = new Array(questions.length).fill(null);
+        renderQuestions();
+        document.getElementById('resultArea').innerHTML = '';
+        // Jangan reset XP atau best score, hanya reset jawaban
+    }
+
+    // Inisialisasi
+    function init() {
+        loadData();
+        renderQuestions();
+        document.getElementById('submitQuizBtn').addEventListener('click', submitQuiz);
+        document.getElementById('resetQuizBtn').addEventListener('click', resetQuiz);
+    }
+
+    init();
+</script>
+</body>
+</html>

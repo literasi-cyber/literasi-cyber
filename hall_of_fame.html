@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>🏆 Hall of Fame | Literasi Cyber Adventure</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #1d2b64, #2b3b6e);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .hof-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fffef7;
+            border-radius: 60px;
+            overflow: hidden;
+            box-shadow: 0 25px 40px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hof-header {
+            background: linear-gradient(135deg, #ffaa33, #ff8c1a);
+            padding: 25px 30px;
+            text-align: center;
+            border-bottom: 5px solid #d45d00;
+        }
+
+        .hof-header h1 {
+            font-size: 2rem;
+            color: #2d1f00;
+            background: #ffeecc;
+            display: inline-block;
+            padding: 8px 30px;
+            border-radius: 50px;
+        }
+
+        .hof-header p {
+            color: #2c1a00;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .stats-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 25px;
+            background: #fef5e7;
+            border-bottom: 2px solid #ffd966;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 40px;
+            padding: 20px;
+            text-align: center;
+            flex: 1;
+            min-width: 180px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            color: #ff914d;
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #2d3748;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .podium-section {
+            padding: 20px 25px;
+            background: #fff9ef;
+        }
+
+        .podium-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #2d1f00;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .podium {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .podium-item {
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+            background: #ffe6b3;
+            border-radius: 30px 30px 20px 20px;
+            padding: 15px;
+            transition: 0.2s;
+        }
+
+        .podium-item.first {
+            background: linear-gradient(145deg, #ffd966, #ffc107);
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .podium-medal {
+            font-size: 3rem;
+        }
+
+        .podium-name {
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        .podium-score {
+            font-weight: bold;
+            background: #2e3b4e;
+            color: #ffd966;
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+        }
+
+        .leaderboard {
+            background: white;
+            border-radius: 40px;
+            margin: 0 25px 25px 25px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .leaderboard-header {
+            display: grid;
+            grid-template-columns: 80px 1fr 120px;
+            background: #2e3b4e;
+            color: #ffd966;
+            padding: 12px 20px;
+            font-weight: bold;
+        }
+
+        .leaderboard-row {
+            display: grid;
+            grid-template-columns: 80px 1fr 120px;
+            padding: 12px 20px;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+        }
+
+        .leaderboard-row:nth-child(even) {
+            background: #fef9ef;
+        }
+
+        .rank {
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+
+        .rank.gold {
+            color: #d4af37;
+        }
+        .rank.silver {
+            color: #a0a0a0;
+        }
+        .rank.bronze {
+            color: #cd7f32;
+        }
+
+        .name-cell {
+            font-weight: 600;
+        }
+
+        .score-cell {
+            font-weight: 700;
+            color: #2e7d32;
+        }
+
+        .achievement-section {
+            padding: 0 25px 30px 25px;
+        }
+
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .badge {
+            background: linear-gradient(145deg, #f9f9f9, #eef2ff);
+            border-radius: 30px;
+            padding: 12px 20px;
+            text-align: center;
+            min-width: 130px;
+            border: 2px solid #ffd966;
+        }
+
+        .badge-icon {
+            font-size: 2rem;
+        }
+
+        .badge-title {
+            font-weight: 800;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        .badge-unlocked {
+            background: linear-gradient(145deg, #c8e6ff, #b3d9ff);
+            border-color: #6c5ce7;
+        }
+
+        .reset-btn {
+            display: block;
+            width: fit-content;
+            margin: 10px auto 25px auto;
+            background: #ff914d;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 40px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            font-family: 'Quicksand', sans-serif;
+            transition: 0.2s;
+        }
+
+        .reset-btn:hover {
+            background: #e07c3a;
+        }
+
+        footer {
+            text-align: center;
+            padding: 18px;
+            background: #1f2a44;
+            color: #f5e2b6;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 650px) {
+            .hof-header h1 { font-size: 1.4rem; }
+            .leaderboard-header, .leaderboard-row {
+                grid-template-columns: 60px 1fr 100px;
+                font-size: 0.8rem;
+            }
+            .stat-value { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="hof-container">
+    <div class="hof-header">
+        <h1><i class="fas fa-trophy"></i> Hall of Fame</h1>
+        <p>🏅 Penghargaan untuk Pahlawan Literasi Terhebat 🏅</p>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-star"></i></div>
+            <div class="stat-value" id="totalXPStat">0</div>
+            <div class="stat-label">Total XP Pahlawan</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-gamepad"></i></div>
+            <div class="stat-value" id="bestScoreStat">0</div>
+            <div class="stat-label">Skor Kuis Tertinggi</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-comments"></i></div>
+            <div class="stat-value" id="totalCommentsStat">0</div>
+            <div class="stat-label">Total Komentar</div>
+        </div>
+    </div>
+
+    <div class="podium-section">
+        <div class="podium-title"><i class="fas fa-crown"></i> Podium Juara Literasi</div>
+        <div class="podium" id="podiumContainer">
+            <!-- Akan diisi dengan JS (peringkat 1,2,3 dari dummy data) -->
+        </div>
+    </div>
+
+    <div class="leaderboard">
+        <div class="leaderboard-header">
+            <div>Peringkat</div>
+            <div>Nama Pahlawan</div>
+            <div>Total XP</div>
+        </div>
+        <div id="leaderboardList">
+            <!-- Daftar peringkat akan diisi JS -->
+        </div>
+    </div>
+
+    <div class="achievement-section">
+        <h3 style="text-align:center;"><i class="fas fa-medal"></i> Lencana Pencapaian</h3>
+        <div class="badge-container" id="badgeContainer">
+            <!-- Lencana akan diupdate berdasarkan capaian -->
+        </div>
+    </div>
+
+    <button id="resetDataBtn" class="reset-btn"><i class="fas fa-trash-alt"></i> Reset Data (Gunakan dengan Bijak)</button>
+    <footer>
+        <i class="fas fa-chart-line"></i> Teruslah belajar, raih XP, dan jadilah legenda literasi!
+    </footer>
+</div>
+
+<script>
+    // ======================= DATA DARI LOCALSTORAGE =======================
+    // Data pemain utama (karena hanya 1 user dalam localStorage, kita bisa buat dummy leaderboard berdasarkan skor
+    // Agar Hall of Fame menarik, kita buat beberapa data pahlawan fiktif plus pemain asli.
+    let currentPlayerXP = 0;
+    let currentPlayerBestScore = 0;
+    let totalComments = 0;
+
+    // Untuk keperluan leaderboard (bisa ditambah dengan data fiktif)
+    // Kita akan menggabungkan data pemain sebenarnya dengan beberapa dummy hero.
+    function loadData() {
+        const savedXP = localStorage.getItem('literasiCyberXP');
+        currentPlayerXP = (savedXP !== null && !isNaN(parseInt(savedXP))) ? parseInt(savedXP) : 0;
+        
+        const savedBest = localStorage.getItem('bestQuizScore');
+        currentPlayerBestScore = (savedBest !== null && !isNaN(parseInt(savedBest))) ? parseInt(savedBest) : 0;
+        
+        // Hitung total komentar dari localStorage
+        const forumData = localStorage.getItem('literasiCyberForum');
+        if (forumData) {
+            try {
+                const comments = JSON.parse(forumData);
+                totalComments = Array.isArray(comments) ? comments.length : 0;
+            } catch(e) { totalComments = 0; }
+        } else {
+            totalComments = 0;
+        }
+        
+        updateStats();
+    }
+    
+    function updateStats() {
+        document.getElementById('totalXPStat').innerText = currentPlayerXP;
+        document.getElementById('bestScoreStat').innerText = currentPlayerBestScore;
+        document.getElementById('totalCommentsStat').innerText = totalComments;
+    }
+    
+    // ======================= LEADERBOARD (Data pemain + dummy) =======================
+    // Membuat daftar pahlawan (pemain asli + tokoh fiktif untuk semarak)
+    function getLeaderboardData() {
+        // Data pahlawan fiktif (tetap)
+        const dummyHeroes = [
+            { name: "Lita (Legenda)", xp: 1240, badge: "👑" },
+            { name: "Cybro (Robot Bijak)", xp: 980, badge: "🤖" },
+            { name: "Mila (Kapten Literasi)", xp: 750, badge: "📚" },
+            { name: "Raka (Sang Penulis)", xp: 520, badge: "✍️" },
+            { name: "Sari (Srikandi Digital)", xp: 310, badge: "💻" }
+        ];
+        // Pemain asli
+        const playerData = { name: "Pahlawan Muda (Kamu)", xp: currentPlayerXP, badge: "⭐", isPlayer: true };
+        
+        // Gabungkan
+        let all = [...dummyHeroes, playerData];
+        // Urutkan berdasarkan XP descending
+        all.sort((a,b) => b.xp - a.xp);
+        // Batasi 10 besar
+        return all.slice(0, 10);
+    }
+    
+    // Render podium (top 3)
+    function renderPodium(data) {
+        const podiumContainer = document.getElementById('podiumContainer');
+        if (!podiumContainer) return;
+        const top3 = data.slice(0,3);
+        // Urutan podium: peringkat 2, 1, 3 agar posisi menarik
+        const order = [1,0,2]; // index ke-1 (juara2), index ke-0 (juara1), index ke-2 (juara3)
+        let html = '';
+        for (let i of order) {
+            if (i >= top3.length) continue;
+            const hero = top3[i];
+            let medal = '';
+            let medalClass = '';
+            if (i === 0) { medal = '🥇'; medalClass = 'first'; }
+            else if (i === 1) { medal = '🥈'; medalClass = ''; }
+            else { medal = '🥉'; medalClass = ''; }
+            html += `
+                <div class="podium-item ${i===0 ? 'first' : ''}">
+                    <div class="podium-medal">${medal} ${hero.badge}</div>
+                    <div class="podium-name">${hero.name}</div>
+                    <div class="podium-score">${hero.xp} XP</div>
+                </div>
+            `;
+        }
+        podiumContainer.innerHTML = html;
+    }
+    
+    // Render leaderboard lengkap (tabel)
+    function renderLeaderboard(data) {
+        const container = document.getElementById('leaderboardList');
+        if (!container) return;
+        let html = '';
+        data.forEach((hero, idx) => {
+            let rankClass = '';
+            if (idx === 0) rankClass = 'gold';
+            else if (idx === 1) rankClass = 'silver';
+            else if (idx === 2) rankClass = 'bronze';
+            const rankDisplay = idx === 0 ? '🥇 1' : (idx === 1 ? '🥈 2' : (idx === 2 ? '🥉 3' : `${idx+1}`));
+            html += `
+                <div class="leaderboard-row">
+                    <div class="rank ${rankClass}">${rankDisplay}</div>
+                    <div class="name-cell">${hero.name} ${hero.isPlayer ? '<span style="background:#ffd966; padding:2px 8px; border-radius:20px; font-size:0.7rem;">Kamu</span>' : ''}</div>
+                    <div class="score-cell">${hero.xp} XP</div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+    
+    // ======================= LENCANA (BADGE) =======================
+    function renderBadges() {
+        const container = document.getElementById('badgeContainer');
+        const badges = [
+            { name: "Perintis Literasi", condition: currentPlayerXP >= 100, icon: "🌱", desc: "Mencapai 100 XP" },
+            { name: "Sang Pemberani", condition: currentPlayerXP >= 300, icon: "⚔️", desc: "Mencapai 300 XP" },
+            { name: "Maestro Kuis", condition: currentPlayerBestScore >= 80, icon: "📝", desc: "Skor kuis 80+" },
+            { name: "Pembicara Ulung", condition: totalComments >= 3, icon: "💬", desc: "3 komentar di forum" },
+            { name: "Legenda Literasi", condition: currentPlayerXP >= 500, icon: "🏆", desc: "500 XP total" }
+        ];
+        let html = '';
+        badges.forEach(b => {
+            const unlockedClass = b.condition ? 'badge-unlocked' : '';
+            const lockIcon = b.condition ? '' : '<i class="fas fa-lock" style="display:block; font-size:0.8rem;"></i>';
+            html += `
+                <div class="badge ${unlockedClass}">
+                    <div class="badge-icon">${b.icon} ${lockIcon}</div>
+                    <div class="badge-title">${b.name}</div>
+                    <div style="font-size:0.6rem; color:#555;">${b.desc}</div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+    
+    // ======================= RESET DATA (opsional) =======================
+    function resetAllData() {
+        if (confirm("⚠️ Peringatan! Menekan tombol ini akan menghapus semua XP, skor kuis, dan komentar forum. Data tidak dapat dikembalikan. Lanjutkan?")) {
+            localStorage.removeItem('literasiCyberXP');
+            localStorage.removeItem('bestQuizScore');
+            localStorage.removeItem('literasiCyberForum');
+            // Reset juga data lainnya jika ada
+            alert("Data telah direset. Halaman akan dimuat ulang.");
+            location.reload();
+        }
+    }
+    
+    // Inisialisasi dan render semua
+    function init() {
+        loadData();
+        const leaderboardData = getLeaderboardData();
+        renderPodium(leaderboardData);
+        renderLeaderboard(leaderboardData);
+        renderBadges();
+        
+        const resetBtn = document.getElementById('resetDataBtn');
+        if (resetBtn) resetBtn.addEventListener('click', resetAllData);
+    }
+    
+    init();
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!-- PANEL VIDEO AKSI - LANGSUNG TAMPIL -->
+<div id="panel-video" class="game-panel">
+    <div class="video-card">
+        <h2><i class="fas fa-play-circle"></i> Video Aksi: Kisah Kancil dan Buaya</h2>
+        <div class="video-wrapper" style="margin: 20px 0; border-radius: 30px; overflow: hidden; background: #000; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
+            <!-- OPSI 1: YouTube (default, langsung tampil, ganti ID video jika perlu) -->
+            <iframe 
+                src="https://www.youtube.com/embed/0m3b0yD7e-Y" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen
+                style="width:100%; aspect-ratio:16/9; display:block; border-radius:30px;">
+            </iframe>
+            
+            <!-- OPSI 2: Video Lokal (jika ingin pakai, hapus tanda <!-- lalu hapus juga penutup -->) 
+            <video controls style="width:100%; border-radius:30px;">
+                <source src="video_ku.mp4" type="video/mp4">
+                Browser tidak mendukung video lokal.
+            </video>
+            -->
+        </div>
+        <div class="mission-box" style="background: #fff3c9; border-radius: 40px; padding: 20px; border-left: 10px solid #ff914d;">
+            <i class="fas fa-bullhorn"></i> <strong>🎯 MISI VIDEO AKSI:</strong><br>
+            Tonton video dengan saksama! Setelah menonton, jawab pertanyaan ini di <strong>Ruang Pahlawan</strong>:
+            <ol style="margin-top: 10px; margin-left: 20px;">
+                <li>Apa pesan moral dari cerita Kancil dan Buaya?</li>
+                <li>Bagaimana Kancil menunjukkan kecerdasannya?</li>
+                <li>Ceritakan pengalamanmu membaca cerita fabel lainnya!</li>
+            </ol>
+            <p><i class="fas fa-gift"></i> <strong>Bonus XP:</strong> Setiap komentar yang menjawab pertanyaan video mendapat +10 XP!</p>
+            <button class="game-btn" data-panel="forum" style="background:#00b894;"><i class="fas fa-pen-fancy"></i> Buka Ruang Pahlawan & Jawab Misi</button>
+        </div>
+    </div>
+</div>
